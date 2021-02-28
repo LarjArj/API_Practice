@@ -17,16 +17,36 @@ import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private UserRepository userRepository;
+	private CartRepository cartRepository;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
 	private CartRepository cartRepository;
+
+	@Autowired
+	public UserController(
+			UserRepository userRepository,
+			CartRepository cartRepository,
+			BCryptPasswordEncoder bCryptPasswordEncoder
+	) {
+		this.userRepository = userRepository;
+		this.cartRepository = cartRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
