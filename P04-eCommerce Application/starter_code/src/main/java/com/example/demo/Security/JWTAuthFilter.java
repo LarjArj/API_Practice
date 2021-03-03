@@ -26,45 +26,45 @@ import java.util.Date;
 //import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 //import static com.example.demo.security.SecurityConstants.*;
 
-
-public class JWTAuthFilter {
-
-
-   // private static final String SECRET = ;
-    //private static final JavaNetUriAccess JWT = ;
-    private AuthenticationManager authenticationManager;
-
-    public JWTAuthFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
-
-    //@Override
-    public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) throws AuthenticationException {
-        try {
-            CreateUserRequest creds = new ObjectMapper().readValue(req.getInputStream(), CreateUserRequest.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
-                            creds.getPassword(),
-                            new ArrayList<>())
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-   // @Override
-    protected void successfulAuthentication(HttpServletRequest req,
-                                            HttpServletResponse res,
-                                            FilterChain chain,
-                                            Authentication auth) {
-
-        String token = JWT.create()
-                .withSubject(((User) auth.getPrincipal()).getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(HMAC512(SECRET.getBytes()));
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-    }
+//
+//public class JWTAuthFilter {
+//
+//
+//   // private static final String SECRET = ;
+//    //private static final JavaNetUriAccess JWT = ;
+//    private AuthenticationManager authenticationManager;
+//
+//    public JWTAuthFilter(AuthenticationManager authenticationManager) {
+//        this.authenticationManager = authenticationManager;
+//    }
+//
+//    //@Override
+//    public Authentication attemptAuthentication(HttpServletRequest req,
+//                                                HttpServletResponse res) throws AuthenticationException {
+//        try {
+//            CreateUserRequest creds = new ObjectMapper().readValue(req.getInputStream(), CreateUserRequest.class);
+//            return authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            creds.getUsername(),
+//                            creds.getPassword(),
+//                            new ArrayList<>())
+//            );
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//   // @Override
+//    protected void successfulAuthentication(HttpServletRequest req,
+//                                            HttpServletResponse res,
+//                                            FilterChain chain,
+//                                            Authentication auth) {
+//
+//        String token = JWT.create()
+//                .withSubject(((User) auth.getPrincipal()).getUsername())
+//                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+//                .sign(HMAC512(SECRET.getBytes()));
+//        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+//    }
 
 }
